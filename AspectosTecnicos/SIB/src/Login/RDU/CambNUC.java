@@ -1,0 +1,742 @@
+/*
+ * El Sistema de Inventario de Bienes (SIB) fue desarrollado con la finalidad de
+ * aportar una mejora al Centro de Educación Continua Unidad Morelia en cuanto
+ * a la administración de los bienes muebles y equipo con los que cuenta.
+ * 
+ * Este software fue concebido, diseñado y desarrollado por el alumno cuyo seudónimo
+ * adoptado es "Emoticón", como proyecto encomendado por el cumplimiento del servicio social.
+ *
+ */
+package Login.RDU;
+
+import Login.Login;
+import Login.RDU.DB.PR;
+import Login.RDU.DB.Selecciones;
+import Login.RDU.DB.Updates;
+import MovimientosSIB.Pinventarios;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Emoticon
+ * @version 1.0.0.0_2
+ */
+public class CambNUC extends javax.swing.JFrame {
+
+    private String nomUsuario;
+    private String passw;
+    private String passw2;
+    private String preguntaSecreta;
+    private String respuestaSecreta;
+    
+    private static boolean indicador = false;
+    
+    /**
+     * Creates new form CambNUC
+     */
+    public CambNUC(boolean indicador) throws SQLException {
+        this.indicador = indicador;
+        
+        
+        // Preparar para desplegar el nombre de usuario en el campo correspondiente
+            ArrayList<Usuario> Usuarios = new ArrayList();
+            Selecciones s = new Selecciones();
+                                                try {
+                                                    Usuarios = s.VnomUsuario();
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                // Contamos los usuarios
+                    int tUsuarios = Usuarios.size();
+                    if(tUsuarios > 1){
+                        getToolkit().beep();
+                        JOptionPane.showMessageDialog(rootPane, 
+                                "Existe más de un usuario registrado en el sistema, contacte al desarrollador de la aplicación para resolver el inconveniente",
+                                                                        "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                        dispose();
+                    }
+                    else if(tUsuarios < 1){
+                        getToolkit().beep();
+                        JOptionPane.showMessageDialog(rootPane,
+                                "No se encontró ningún usuario registrado, contacte al desarrollador de la aplicación para resolver el inconveniente", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                        dispose();
+                    }
+                    else{
+                         if(indicador != false) {
+                                initComponents();
+                                setLocationRelativeTo(null);
+                                setResizable(false);
+                                setTitle("Modificar nombre de usuario y/o contraseña");
+                                
+                                etiquetaNomUsuario.setVisible(false);
+                                campoNomUsuario.setVisible(false);
+
+                                botonActualizar.setVisible(false);
+                                botonActualizar.setEnabled(false);
+
+                                botonVerificar.setEnabled(false);
+
+                                etiquetaContraseñaCorrecta.setVisible(false);
+                                etiquetaContraseñaIncorrecta.setVisible(false);
+                                etiquetaRespuestaCorrecta.setVisible(false);
+                                etiquetaRespuestaIncorrecta.setVisible(false);
+
+
+                                // Preparar para desplegar las preguntas secretas
+                                ArrayList<PR> Preguntas = new ArrayList();
+                                Preguntas = s.Preguntas();
+                                    // Contamos las preguntas
+                                            int tPreguntas = Preguntas.size();
+                                            if(tPreguntas > 3){
+                                            preguntaSecreta = Preguntas.get(0).getPregunta();
+
+                                            etiquetaPreguntaSecreta.setText(preguntaSecreta);
+                                            }
+                         }
+                         else{
+                             getToolkit().beep();
+                             JOptionPane.showMessageDialog(rootPane, "Usted no inició sesión debidamente.", "Error", JOptionPane.ERROR_MESSAGE);
+                         }
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        etiquetaContraseña = new javax.swing.JLabel();
+        etiquetaContraseña2 = new javax.swing.JLabel();
+        campoContraseña = new javax.swing.JPasswordField();
+        campoContraseña2 = new javax.swing.JPasswordField();
+        botonActualizar = new javax.swing.JButton();
+        etiquetaNomUsuario = new javax.swing.JLabel();
+        campoNomUsuario = new javax.swing.JTextField();
+        etiquetaPreguntaSecreta = new javax.swing.JLabel();
+        campoRespuestaSecreta = new javax.swing.JTextField();
+        botonVerificar = new javax.swing.JButton();
+        etiquetaMensaje = new javax.swing.JLabel();
+        etiquetaLogin = new javax.swing.JLabel();
+        etiquetaContraseñaIncorrecta = new javax.swing.JLabel();
+        etiquetaRespuestaIncorrecta = new javax.swing.JLabel();
+        etiquetaContraseñaCorrecta = new javax.swing.JLabel();
+        etiquetaRespuestaCorrecta = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setText("Modificar nombre de usuario y/o contraseña");
+
+        etiquetaContraseña.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etiquetaContraseña.setText("Contraseña actual:");
+
+        etiquetaContraseña2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etiquetaContraseña2.setText("Repita la contraseña:");
+
+        campoContraseña.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        campoContraseña.setSelectionColor(new java.awt.Color(51, 0, 0));
+        campoContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoContraseñaActionPerformed(evt);
+            }
+        });
+        campoContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoContraseñaKeyReleased(evt);
+            }
+        });
+
+        campoContraseña2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        campoContraseña2.setSelectionColor(new java.awt.Color(51, 0, 0));
+        campoContraseña2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoContraseña2KeyReleased(evt);
+            }
+        });
+
+        botonActualizar.setBackground(new java.awt.Color(51, 0, 0));
+        botonActualizar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        botonActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        botonActualizar.setText("Actualizar");
+        botonActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonActualizarMouseEntered(evt);
+            }
+        });
+        botonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarActionPerformed(evt);
+            }
+        });
+
+        etiquetaNomUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etiquetaNomUsuario.setText("Nombre de usuario:");
+
+        campoNomUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        campoNomUsuario.setSelectionColor(new java.awt.Color(51, 0, 0));
+        campoNomUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoNomUsuarioKeyReleased(evt);
+            }
+        });
+
+        etiquetaPreguntaSecreta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        etiquetaPreguntaSecreta.setText("Pregunta secreta:");
+
+        campoRespuestaSecreta.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        campoRespuestaSecreta.setSelectionColor(new java.awt.Color(51, 0, 0));
+        campoRespuestaSecreta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoRespuestaSecretaMouseClicked(evt);
+            }
+        });
+        campoRespuestaSecreta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoRespuestaSecretaKeyReleased(evt);
+            }
+        });
+
+        botonVerificar.setBackground(new java.awt.Color(51, 0, 0));
+        botonVerificar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        botonVerificar.setForeground(new java.awt.Color(255, 255, 255));
+        botonVerificar.setText("Verificar");
+        botonVerificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botonVerificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                botonVerificarMouseEntered(evt);
+            }
+        });
+        botonVerificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVerificarActionPerformed(evt);
+            }
+        });
+
+        etiquetaMensaje.setText("Ingrese su contraseña actual y responda la pregunta secreta");
+
+        etiquetaLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Login/RDU/vinculoAtras.png"))); // NOI18N
+        etiquetaLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        etiquetaLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                etiquetaLoginMouseClicked(evt);
+            }
+        });
+
+        etiquetaContraseñaIncorrecta.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        etiquetaContraseñaIncorrecta.setForeground(new java.awt.Color(255, 51, 51));
+        etiquetaContraseñaIncorrecta.setText("Contraseña incorrecta");
+
+        etiquetaRespuestaIncorrecta.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        etiquetaRespuestaIncorrecta.setForeground(new java.awt.Color(255, 51, 51));
+        etiquetaRespuestaIncorrecta.setText("Respuesta incorrecta");
+
+        etiquetaContraseñaCorrecta.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        etiquetaContraseñaCorrecta.setForeground(new java.awt.Color(0, 153, 51));
+        etiquetaContraseñaCorrecta.setText("Contraseña correcta");
+
+        etiquetaRespuestaCorrecta.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
+        etiquetaRespuestaCorrecta.setForeground(new java.awt.Color(0, 153, 51));
+        etiquetaRespuestaCorrecta.setText("Respuesta correcta");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(etiquetaLogin)
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(campoRespuestaSecreta)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(etiquetaRespuestaIncorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiquetaRespuestaCorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonVerificar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(etiquetaContraseña)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(campoContraseña)
+                                .addGap(26, 26, 26)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoContraseña2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etiquetaContraseña2)))
+                    .addComponent(campoNomUsuario)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(etiquetaContraseñaIncorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiquetaContraseñaCorrecta, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonActualizar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(etiquetaNomUsuario)
+                            .addComponent(jLabel1)
+                            .addComponent(etiquetaPreguntaSecreta)
+                            .addComponent(etiquetaMensaje))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(98, 98, 98))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(etiquetaMensaje)
+                        .addGap(29, 29, 29)
+                        .addComponent(etiquetaNomUsuario))
+                    .addComponent(etiquetaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoNomUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaContraseña)
+                    .addComponent(etiquetaContraseña2))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoContraseña2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(etiquetaContraseñaIncorrecta)
+                        .addComponent(etiquetaContraseñaCorrecta)))
+                .addGap(16, 16, 16)
+                .addComponent(etiquetaPreguntaSecreta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoRespuestaSecreta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(etiquetaRespuestaIncorrecta)
+                        .addComponent(etiquetaRespuestaCorrecta)))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void campoContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoContraseñaActionPerformed
+            if (evt.getSource() == campoContraseña) {
+                                            passw = campoContraseña.getText();
+                                            passw2 = campoContraseña2.getText();
+                                            preguntaSecreta = campoRespuestaSecreta.getText();
+                if (!passw.isEmpty() & !passw2.isEmpty() & !preguntaSecreta.isEmpty()) {
+                        botonVerificar.setEnabled(true);
+                        botonActualizar.setEnabled(true);
+                } else{
+                        botonVerificar.setEnabled(false);
+                        botonActualizar.setEnabled(false);
+                }
+        }
+    }//GEN-LAST:event_campoContraseñaActionPerformed
+
+    private void campoContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoContraseñaKeyReleased
+                                            passw = campoContraseña.getText();
+                                            passw2 = campoContraseña2.getText();
+                                            preguntaSecreta = etiquetaPreguntaSecreta.getText();
+                                            respuestaSecreta = campoRespuestaSecreta.getText();
+                                            
+                if(this.campoRespuestaSecreta.isVisible()){
+                    if (!passw.isEmpty() & !passw2.isEmpty() & !respuestaSecreta.isEmpty()) {
+                        botonVerificar.setEnabled(true);
+                        botonActualizar.setEnabled(true);
+                    } else{
+                        botonVerificar.setEnabled(false);
+                        botonActualizar.setEnabled(false);
+                    }
+                } else{
+                    if (!passw.isEmpty() & !passw2.isEmpty() & !this.campoNomUsuario.getText().isEmpty()) {
+                                botonActualizar.setEnabled(true);
+                        } else{
+                                botonActualizar.setEnabled(false);
+                        }
+                }                    
+    }//GEN-LAST:event_campoContraseñaKeyReleased
+
+    private void campoContraseña2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoContraseña2KeyReleased
+        
+                                            passw = campoContraseña.getText();
+                                            passw2 = campoContraseña2.getText();
+                                            preguntaSecreta = etiquetaPreguntaSecreta.getText();
+                                            respuestaSecreta = campoRespuestaSecreta.getText();
+                
+                if(!this.campoContraseña.getText().isEmpty()){
+                    if(passw2.equals(passw)){
+                        Selecciones s = new Selecciones();
+                        boolean vContraseña = false;
+                            try {
+                                // Checamos si la contraseña es correcta
+                                vContraseña = s.Vcontraseña(preguntaSecreta, passw);
+                            } catch (SQLException ex) {
+                            Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            if(vContraseña != false){
+                                etiquetaContraseñaIncorrecta.setVisible(false);
+                                etiquetaContraseñaCorrecta.setVisible(true);
+                                campoContraseña.setEnabled(false);
+                                campoContraseña2.setEnabled(false);
+                            }
+                    }
+                }
+                
+                if(this.campoRespuestaSecreta.isVisible()){
+                        if (!passw.isEmpty() & !passw2.isEmpty() & !respuestaSecreta.isEmpty()) {
+                                botonVerificar.setEnabled(true);
+                                botonActualizar.setEnabled(true);
+                        } else{
+                                botonVerificar.setEnabled(false);
+                                botonActualizar.setEnabled(false);
+                        }
+                } else{
+                    if (!passw.isEmpty() & !passw2.isEmpty() & !this.campoNomUsuario.getText().isEmpty()) {
+                                botonActualizar.setEnabled(true);
+                        } else{
+                                botonActualizar.setEnabled(false);
+                        }
+                }
+    }//GEN-LAST:event_campoContraseña2KeyReleased
+
+    private void campoRespuestaSecretaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoRespuestaSecretaKeyReleased
+        
+                                            passw = campoContraseña.getText();
+                                            passw2 = campoContraseña2.getText();
+                                            preguntaSecreta = etiquetaPreguntaSecreta.getText();
+                                            respuestaSecreta = campoRespuestaSecreta.getText();
+                                            
+                if(!passw.isEmpty() & !passw2.isEmpty()){
+                    if(!passw2.equals(passw)){
+                        JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden, verifiquelas y vuelva a intentar",
+                                                                                            "Las contraseñas no coinciden", JOptionPane.ERROR_MESSAGE);
+                        campoContraseña.setText("");
+                        campoContraseña2.setText("");
+                    } else{
+                        Selecciones s = new Selecciones();
+                        boolean vContraseña = false;
+                        boolean vRespuesta = false;
+                            try {
+                                // Checamos si la contraseña es correcta
+                                vContraseña = s.Vcontraseña(preguntaSecreta, passw);
+                                // Checamos si la respuesta secreta es correcta
+                                vRespuesta = s.Vrespuesta(preguntaSecreta, respuestaSecreta);
+                            } catch (SQLException ex) {
+                            Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            if(vContraseña == true & vRespuesta == true){
+                                    etiquetaRespuestaIncorrecta.setVisible(false);
+                                    etiquetaContraseñaIncorrecta.setVisible(false);
+                                    etiquetaRespuestaCorrecta.setVisible(true);
+                                    etiquetaContraseñaCorrecta.setVisible(true);
+                                    JOptionPane.showMessageDialog(rootPane, "Todos los datos son correctos", "¡Éxito!", 
+                                                                                                                             JOptionPane.INFORMATION_MESSAGE);
+                                    campoContraseña.setText("");
+                                    campoContraseña2.setText("");
+                                    campoContraseña.setEnabled(true);
+                                    campoContraseña2.setEnabled(true);
+                                    etiquetaNomUsuario.setVisible(true);
+                                    campoNomUsuario.setVisible(true);
+                                    etiquetaContraseñaIncorrecta.setVisible(false);
+                                    etiquetaContraseñaCorrecta.setVisible(false);
+                                    etiquetaRespuestaIncorrecta.setVisible(false);
+                                    etiquetaRespuestaCorrecta.setVisible(false);
+                                                                etiquetaContraseña.setText("Nueva contraseña:");
+                                    etiquetaPreguntaSecreta.setVisible(false);
+                                    campoRespuestaSecreta.setVisible(false);
+                                             botonVerificar.setVisible(false);
+                                        botonActualizar.setVisible(true);
+                                        botonActualizar.setEnabled(false);
+                                    etiquetaMensaje.setVisible(false);
+                                            if(this.campoNomUsuario.isVisible()){
+                                                campoContraseña.setText("");
+                                                campoContraseña2.setText("");
+                                                campoContraseña.setEnabled(true);
+                                                campoContraseña2.setEnabled(true);
+                                        }
+                                        // Preparar para desplegar el nombre de usuario en el campo correspondiente
+                                        ArrayList<Usuario> Usuarios = new ArrayList();
+                                                                try {
+                                                                    Usuarios = s.VnomUsuario();
+                                                                } catch (SQLException ex) {
+                                                                    Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                                                                }
+                                // Contamos los usuarios
+                                    int tUsuarios = Usuarios.size();
+                                    if(tUsuarios > 1){
+                                        JOptionPane.showMessageDialog(rootPane, "Existe más de un usuario registrado en el sistema", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                                        dispose();
+                                    }
+                                    else if(tUsuarios < 1){
+                                        JOptionPane.showMessageDialog(rootPane, "No se encontró ningún usuario registrado", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                                        dispose();
+                                    }
+                                    else{
+                                        nomUsuario = Usuarios.get(0).getNomUsuario();
+                                        campoNomUsuario.setText(nomUsuario);
+                                    }
+                            } else if(vContraseña != true){
+                                etiquetaContraseñaCorrecta.setVisible(false);
+                                etiquetaContraseñaIncorrecta.setVisible(true);
+                                campoContraseña.setText("");
+                                campoContraseña2.setText("");
+                            } else if(vContraseña != false){
+                                etiquetaContraseñaIncorrecta.setVisible(false);
+                                etiquetaContraseñaCorrecta.setVisible(true);
+                                campoContraseña.setEnabled(false);
+                                campoContraseña2.setEnabled(false);
+                            }
+                    }//////////////////////////////////////////////////////
+                }
+                                            
+                if (!passw.isEmpty() & !passw2.isEmpty() & !preguntaSecreta.isEmpty()) {
+                        botonVerificar.setEnabled(true);
+                } else{
+                        botonVerificar.setEnabled(false);
+                }
+        
+                
+    }//GEN-LAST:event_campoRespuestaSecretaKeyReleased
+
+    private void botonVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVerificarActionPerformed
+                                            passw = campoContraseña.getText();
+                                            passw2 = campoContraseña2.getText();
+            // Verificamos que las contraseñas coincidan   
+            if(!passw2.equals(passw)){
+                // Si no es así se desplegará el siguiente mensaje:
+            JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden, verifiquelas y vuelva a intentar", "Las contraseñas no coinciden", 
+                                                                                                             JOptionPane.ERROR_MESSAGE);
+        }
+           // Si las contraseñas coincidieron seguimos con este otro paso: 
+        else{
+                                            // Recojemos la pregunta secreta que está en la etiqueta
+                                            preguntaSecreta = etiquetaPreguntaSecreta.getText();
+                                            // Recojemos lo que se haya escrito en el campo pregunta
+                                            respuestaSecreta = campoRespuestaSecreta.getText();
+                    // Mandamos los datos recogidos a la base de datos para su verificación
+                                            Selecciones s = new Selecciones();
+                                            boolean vContraseña = false;
+                                            boolean vRespuesta = false;
+                                                try {
+                                                    // Checamos si la contraseña es correcta
+                                                    vContraseña = s.Vcontraseña(preguntaSecreta, passw);
+                                                    // Checamos si la respuesta secreta es correcta
+                                                    vRespuesta = s.Vrespuesta(preguntaSecreta, respuestaSecreta);
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                if(vContraseña == true      &     vRespuesta == true){
+                    etiquetaRespuestaIncorrecta.setVisible(false);
+                    etiquetaContraseñaIncorrecta.setVisible(false);
+                    etiquetaRespuestaCorrecta.setVisible(true);
+                    etiquetaContraseñaCorrecta.setVisible(true);
+                    JOptionPane.showMessageDialog(rootPane, "Todos los datos son correctos", "¡Éxito!", 
+                                                                                                             JOptionPane.INFORMATION_MESSAGE);
+                        if(this.campoContraseña.isEnabled() & this.campoContraseña2.isEnabled()){
+                            campoContraseña.setText("");
+                            campoContraseña2.setText("");
+                        }
+                    etiquetaNomUsuario.setVisible(true);
+                    campoNomUsuario.setVisible(true);
+                    etiquetaContraseñaIncorrecta.setVisible(false);
+                    etiquetaContraseñaCorrecta.setVisible(false);
+                    etiquetaRespuestaIncorrecta.setVisible(false);
+                    etiquetaRespuestaCorrecta.setVisible(false);
+                                                etiquetaContraseña.setText("Nueva contraseña:");
+                    etiquetaPreguntaSecreta.setVisible(false);
+                    campoRespuestaSecreta.setVisible(false);
+                             botonVerificar.setVisible(false);
+                        botonActualizar.setVisible(true);
+                        botonActualizar.setEnabled(false);
+                    etiquetaMensaje.setVisible(false);
+                            if(this.campoNomUsuario.isVisible()){
+                                campoContraseña.setText("");
+                                campoContraseña2.setText("");
+                                campoContraseña.setEnabled(true);
+                                campoContraseña2.setEnabled(true);
+                            }
+                    
+                    // Preparar para desplegar el nombre de usuario en el campo correspondiente
+            ArrayList<Usuario> Usuarios = new ArrayList();
+                                                try {
+                                                    Usuarios = s.VnomUsuario();
+                                                } catch (SQLException ex) {
+                                                    Logger.getLogger(CambNUC.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                // Contamos los usuarios
+                    int tUsuarios = Usuarios.size();
+                    if(tUsuarios > 1){
+                        JOptionPane.showMessageDialog(rootPane, "Existe más de un usuario registrado en el sistema", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                        dispose();
+                    }
+                    else if(tUsuarios < 1){
+                        JOptionPane.showMessageDialog(rootPane, "No se encontró ningún usuario registrado", "¡ERROR!", JOptionPane.ERROR_MESSAGE);
+                        dispose();
+                    }
+                    else{
+                        nomUsuario = Usuarios.get(0).getNomUsuario();
+                        campoNomUsuario.setText(nomUsuario);
+                    }
+                }
+                else{
+                    if(this.campoContraseña.isEnabled() & this.campoContraseña2.isEnabled()){
+                        campoContraseña.setText("");
+                        campoContraseña2.setText("");
+                    }
+                            if(vContraseña != true){
+                                etiquetaContraseñaIncorrecta.setVisible(true);
+                                etiquetaContraseñaCorrecta.setVisible(false);
+                                    }else{
+                                        etiquetaContraseñaIncorrecta.setVisible(false);
+                                        etiquetaContraseñaCorrecta.setVisible(true);
+                                    }
+                            if(vRespuesta != true){
+                                etiquetaRespuestaIncorrecta.setVisible(true);
+                                etiquetaRespuestaCorrecta.setVisible(false);
+                                    }else{
+                                        etiquetaRespuestaIncorrecta.setVisible(false);
+                                        etiquetaRespuestaCorrecta.setVisible(true);
+                                    }
+                }
+        }
+        
+    }//GEN-LAST:event_botonVerificarActionPerformed
+
+    private void botonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarActionPerformed
+        // Recogemos los valores de los campos de las contraseñas
+        passw = campoContraseña.getText();
+        passw2 = campoContraseña2.getText();
+
+        // Verificamos que las contraseñas coincidan
+        if(!passw2.equals(passw)){
+                    campoContraseña.setText("");
+                    campoContraseña2.setText("");
+            JOptionPane.showMessageDialog(rootPane, "Las contraseñas no coinciden, verifiquelas y vuelva a intentar", "Las contraseñas no coinciden", 
+                                                                                                             JOptionPane.ERROR_MESSAGE);
+        }
+        // Las contraseñas si coinciden
+        else{
+            int conf = JOptionPane.showConfirmDialog(rootPane, 
+                            "Está apunto de modificar el nombre de usuario y/o contraseña," +
+                                    " verifique que no haya modificado accidentalmente el nombre de usuario,\n" +
+                                    " ya que si le agregó accidentalmente un signo, espacio, número, o letra de más, no podrá acceder después ",
+                            "¿Desea confinuar?", JOptionPane.OK_CANCEL_OPTION);
+                    if(conf == 0){
+                            nomUsuario = campoNomUsuario.getText();
+                            boolean vUpdateNomUPassw = false;
+                            Updates upd = new Updates();
+                            vUpdateNomUPassw = upd.ActualizarNomUC(nomUsuario, passw);
+                            // Verificamos si el nombre de usuario y la contraseña se actualizaron correctamente
+                                if(vUpdateNomUPassw != false){
+                                    // Si se actualizaron correctamente nos va a mandar al Login para volver a iniciar sesión con los nuevos datos
+                                    Login l = new Login();
+                                    l.setVisible(true);
+                                    dispose();
+                                    JOptionPane.showMessageDialog(rootPane, "Los datos se actualizaron correctamente, vuelva a iniciar sesión", "¡Éxito!", 
+                                                                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                // Si no se actualizaron los datos nos va a mostra un mensaje con tal información
+                                else{
+                                    JOptionPane.showMessageDialog(rootPane, 
+                                            "Los datos no se pudieron actualizar, intentelo de nuevo más tarde,"
+                                                    + "\nsi persiste el problema contacte al desarrollador de la aplicación", "ERROR", 
+                                                                                                                        JOptionPane.ERROR_MESSAGE);
+                                }
+                    }
+        }
+        
+    }//GEN-LAST:event_botonActualizarActionPerformed
+
+    private void campoNomUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoNomUsuarioKeyReleased
+        if (evt.getSource() == campoNomUsuario) {
+                if (!this.campoContraseña.getText().isEmpty() & !this.campoContraseña2.getText().isEmpty() & !this.campoNomUsuario.getText().isEmpty()) {
+                        botonActualizar.setEnabled(true);
+                } else{
+                        botonActualizar.setEnabled(false);
+                }
+        }
+        
+    }//GEN-LAST:event_campoNomUsuarioKeyReleased
+
+    private void etiquetaLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_etiquetaLoginMouseClicked
+        Pinventarios pi = new Pinventarios(true);
+        pi.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_etiquetaLoginMouseClicked
+
+    private void botonVerificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonVerificarMouseEntered
+        if(botonVerificar.isEnabled() == true){
+            if(this.campoContraseña.getText().isEmpty() | this.campoContraseña2.getText().isEmpty() | this.campoRespuestaSecreta.getText().isEmpty()){
+                botonVerificar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_botonVerificarMouseEntered
+
+    private void botonActualizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonActualizarMouseEntered
+        if(botonActualizar.isEnabled() == true){
+            if(this.campoContraseña.getText().isEmpty() | this.campoContraseña2.getText().isEmpty() | this.campoRespuestaSecreta.getText().isEmpty()){
+                botonActualizar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_botonActualizarMouseEntered
+
+    private void campoRespuestaSecretaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoRespuestaSecretaMouseClicked
+        
+    }//GEN-LAST:event_campoRespuestaSecretaMouseClicked
+
+    
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonActualizar;
+    private javax.swing.JButton botonVerificar;
+    private javax.swing.JPasswordField campoContraseña;
+    private javax.swing.JPasswordField campoContraseña2;
+    private javax.swing.JTextField campoNomUsuario;
+    private javax.swing.JTextField campoRespuestaSecreta;
+    private javax.swing.JLabel etiquetaContraseña;
+    private javax.swing.JLabel etiquetaContraseña2;
+    private javax.swing.JLabel etiquetaContraseñaCorrecta;
+    private javax.swing.JLabel etiquetaContraseñaIncorrecta;
+    private javax.swing.JLabel etiquetaLogin;
+    private javax.swing.JLabel etiquetaMensaje;
+    private javax.swing.JLabel etiquetaNomUsuario;
+    private javax.swing.JLabel etiquetaPreguntaSecreta;
+    private javax.swing.JLabel etiquetaRespuestaCorrecta;
+    private javax.swing.JLabel etiquetaRespuestaIncorrecta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    // End of variables declaration//GEN-END:variables
+}

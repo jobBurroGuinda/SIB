@@ -1,0 +1,13 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}El Sistema de Inventario de Bienes (SIB) fue desarrollado con la finalidad de
+${licensePrefix}aportar una mejora al Centro de Educación Continua Unidad Morelia en cuanto
+${licensePrefix}a la administración de los bienes muebles y equipo con los que cuenta.
+${licensePrefix}
+${licensePrefix}Este software fue concebido, diseñado y desarrollado por el alumno cuyo seudónimo
+${licensePrefix}adoptado es "Emoticón", como proyecto encomendado por el cumplimiento del servicio social.
+${licensePrefix}
+<#if licenseLast??>
+${licenseLast}
+</#if>
